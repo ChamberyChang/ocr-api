@@ -1,0 +1,30 @@
+{
+  // config.default.json would update new setting keys to config.json automatically. 
+  "autoUpdateConfig": false,
+  // websocket settings
+  "cqws": {
+    "host": "127.0.0.1",
+    "port": 6700,
+    "enableAPI": true,
+    "enableEvent": true,
+    "accessToken": "",
+    "reconnection": true,
+    "reconnectionAttempts": 10,
+    "reconnectionDelay": 5000
+  },
+  // OCR settings
+  "ocr": {
+    // You can choose one of API services: ["ocr.space", "baidubce"]
+    "use": "ocr.space",
+    "ocr.space": {
+      "defaultLANG": "jpn",
+      "apikey": ""
+    },
+    // When you use BaiduBCE, the default language is simplified Chinese. 
+    "baidubce": {
+      "useApi": "accurate_basic",
+      "apiKey": "",
+      "secretKey": ""
+    }
+  }
+}
