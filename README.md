@@ -1,4 +1,4 @@
-# ocr-app
+# OCR-App
 
 ## Project setup
 ```

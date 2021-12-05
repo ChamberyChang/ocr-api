@@ -1,6 +1,13 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import "./registerServiceWorker";
-import router from "./router";
+import Vue from 'vue'
+import App from './App.vue'
+import './registerServiceWorker'
+import router from './router'
+import i18n from './i18n'
 
-createApp(App).use(router).mount("#app");
+Vue.config.productionTip = false
+
+new Vue({
+  router,
+  i18n,
+  render: h => h(App)
+}).$mount('#app')
