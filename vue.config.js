@@ -9,4 +9,6 @@ module.exports = {
       enableBridge: true,
     },
   },
+
+  transpileDependencies: ["vuetify"],
 };

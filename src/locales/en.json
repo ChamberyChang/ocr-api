@@ -1,3 +1,21 @@
 {
-  "message": "hello i18n !!"
+  "common": {
+    "message": "hello i18n !!",
+    "author": "Author:",
+    "abstract": "An OCR web application.",
+    "usingAPI": "Using OCR API"
+  },
+  "ocr": {
+    "button": "OCR",
+    "tip": "You can also drag & drop image here or paste your screenshot directly",
+    "processing": "Processing...",
+    "uploadError": "Upload error: ",
+    "error": "OCR error: ",
+    "tagOverLimit": "Too many tags detected. Only the first {n} tags will be used.",
+    "tagNotEnough": "The number of recognized tags is less than {n}, please notice to complete it.",
+    "setting": {
+      "tip": "This function uses the free OCR service provided by {0}, and uses the official trial API key by default. If you have reached the trial limit due to your high usage frequency, please {1} to apply for a free API key.",
+      "applyLink": "go here"
+    }
+  }
 }

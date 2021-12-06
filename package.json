@@ -15,12 +15,12 @@
     "js-base64": "^3.7.2",
     "lodash": "^4.17.21",
     "lodash.combinations": "^18.10.0",
-    "muse-ui": "^3.0.2",
     "register-service-worker": "^1.7.2",
     "vue": "^2.6.14",
     "vue-i18n": "^8.26.3",
     "vue-i18n-bridge": "^9.2.0-beta.10",
-    "vue-router": "^3.5.3"
+    "vue-router": "^3.5.3",
+    "vuetify": "^2.4.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.16.0",
@@ -44,8 +44,10 @@
     "sass": "^1.43.5",
     "sass-loader": "^10.2.0",
     "vue-cli-plugin-i18n": "~2.3.1",
+    "vue-cli-plugin-vuetify": "~2.4.5",
     "vue-loader": "^15.9.8",
     "vue-template-compiler": "^2.6.14",
+    "vuetify-loader": "^1.7.0",
     "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^4.5.0"
   },

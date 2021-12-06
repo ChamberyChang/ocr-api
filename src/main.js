@@ -3,14 +3,14 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import i18n from "./i18n";
-import MuseUI from "muse-ui";
-import "muse-ui/dist/muse-ui.css";
+import axios from "axios";
+import vuetify from "./plugins/vuetify";
 
-Vue.config.productionTip = false;
-Vue.use(MuseUI);
+Vue.prototype.axios = axios;
 
 new Vue({
   router,
   i18n,
+  vuetify,
   render: (h) => h(App),
 }).$mount("#app");

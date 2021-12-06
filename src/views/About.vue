@@ -1,50 +1,65 @@
 <template>
-  <div class="about">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <p>
-      <b>Author: <a href="https://github.com/ChamberyChang/ocr-app" target="_blank" rel="noopener">MA21502</a></b><br>
-      An OCR web application.
-    </p>
-    <h3>OCR API using</h3>
-    <ul>
-      <li><a href="https://ocr.space" target="_blank" rel="noopener">ocr.space</a></li>
-      <li><a href="https://intl.cloud.baidu.com" target="_blank" rel="noopener">Baidu Cloud Engine</a></li>
-    </ul>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-pwa" target="_blank" rel="noopener">pwa</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-router" target="_blank" rel="noopener">router</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-  </div>
+  <v-container>
+    <v-row class="text-center">
+      <v-col cols="12">
+        <v-img
+          :src="require('../assets/logo.svg')"
+          class="my-3"
+          contain
+          height="200"
+        />
+      </v-col>
+      <v-col class="about">
+        <h1 class="display-2 font-weight-bold mb-3">
+          {{ $t("common.message") }}
+        </h1>
+        <p class="subheading font-weight-regular">
+          {{ $t("common.author")
+          }}<a href="https://github.com/ChamberyChang" target="_blank"
+            >MA21502</a
+          >
+          <br />{{ $t("common.abstract") }}
+        </p>
+      </v-col>
+
+      <v-col class="mb-5" cols="12">
+        <h2 class="headline font-weight-bold mb-3">
+          {{ $t("common.usingAPI") }}
+        </h2>
+
+        <v-row justify="center">
+          <a
+            v-for="(ocr, i) in ocrAPI"
+            :key="i"
+            :href="ocr.href"
+            class="subheading mx-3"
+            target="_blank"
+          >
+            {{ ocr.text }}
+          </a>
+        </v-row>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 export default {
-  name: 'About',
+  name: "About",
   props: {
-    msg: String
-  }
-}
+    msg: String,
+  },
+  data: () => ({
+    ocrAPI: [
+      {
+        text: "ocr.space",
+        href: "https://ocr.space",
+      },
+      {
+        text: "Baidu Cloud Engine",
+        href: "https://intl.cloud.baidu.com",
+      },
+    ],
+  }),
+};
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
-
