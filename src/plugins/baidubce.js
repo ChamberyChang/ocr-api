@@ -21,8 +21,8 @@ const languageEnum = {
  * @returns {Promise<string[]>} result
  */
 export default async (file, lang, access_token) => {
-  const language_type = languageEnum[lang];
-
+  const addon = {};
+  addon.language_type = languageEnum[lang];
   const image = Buffer.from(file.toString(), "binary").toString("base64");
 
   const result = await Vue.axios
