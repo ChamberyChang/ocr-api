@@ -4,9 +4,10 @@ import "./registerServiceWorker";
 import router from "./router";
 import i18n from "./i18n";
 import axios from "axios";
+import VueAxios from "vue-axios";
 import vuetify from "./plugins/vuetify";
 
-Vue.prototype.axios = axios;
+Vue.use(VueAxios, axios);
 
 new Vue({
   router,

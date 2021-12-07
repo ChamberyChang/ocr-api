@@ -12,29 +12,23 @@
 
       <v-col class="home">
         <h1 class="display-2 font-weight-bold mb-3">
-          {{ $t("common.message") }}
+          {{ $t("common.title") }}
         </h1>
       </v-col>
     </v-row>
 
     <v-row class="function">
-      <OCR />
-
-      <v-card>
-        <HelloWorld />
-      </v-card>
+      <Ocr />
     </v-row>
   </v-container>
 </template>
 
 <script>
-import HelloWorld from "@/components/HelloWorld.vue";
-import OCR from "@/components/OCR.vue";
+import Ocr from "@/components/OCR";
 export default {
   name: "Home",
   components: {
-    HelloWorld,
-    OCR,
+    Ocr,
   },
 };
 </script>

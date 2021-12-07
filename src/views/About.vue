@@ -11,7 +11,7 @@
       </v-col>
       <v-col class="about">
         <h1 class="display-2 font-weight-bold mb-3">
-          {{ $t("common.message") }}
+          {{ $t("common.title") }}
         </h1>
         <p class="subheading font-weight-regular">
           {{ $t("common.author")
@@ -40,12 +40,20 @@
         </v-row>
       </v-col>
     </v-row>
+
+    <v-card>
+      <HelloWorld />
+    </v-card>
   </v-container>
 </template>
 
 <script>
+import HelloWorld from "@/components/HelloWorld";
 export default {
   name: "About",
+  components: {
+    HelloWorld,
+  },
   props: {
     msg: String,
   },
