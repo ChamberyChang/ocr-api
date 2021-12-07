@@ -11,7 +11,7 @@
           <p class="subheading font-weight-regular">
             {{ $t("common.author")
             }}<a href="https://github.com/ChamberyChang" target="_blank"
-              >MA21502</a
+              >SatURnus</a
             >
             <br />{{ $t("common.abstract") }}
           </p>
