@@ -10,7 +10,8 @@
     "usingAPI": "採用したAPI",
     "links": "外部リンク",
     "close": "閉じる",
-    "submit": "送信"
+    "submit": "送信",
+    "get": "獲得"
   },
   "ocr": {
     "tip": "画像をここにアップロードします",

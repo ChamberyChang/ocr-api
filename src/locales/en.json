@@ -10,7 +10,8 @@
     "usingAPI": "Using API",
     "links": "Links",
     "close": "Close",
-    "submit": "Submit"
+    "submit": "Submit",
+    "get": "Get"
   },
   "ocr": {
     "tip": "You can upload image here",

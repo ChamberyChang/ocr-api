@@ -10,7 +10,8 @@
     "usingAPI": "使用的API",
     "links": "相关链接",
     "close": "关闭",
-    "submit": "提交"
+    "submit": "提交",
+    "get": "取得"
   },
   "ocr": {
     "tip": "在此处上传图片",

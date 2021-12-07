@@ -1,6 +1,6 @@
 import Vue from "vue";
 import _ from "lodash";
-//import Qs from "qs";
+import Qs from "qs";
 
 const languageEnum = {
   zh: "CHN_ENG",
@@ -25,17 +25,17 @@ export default async (file, lang, access_token) => {
 
   const image = Buffer.from(file.toString(), "binary").toString("base64");
 
-  var data = new FormData();
-  data.append("image", image);
-  data.append("language_type", language_type);
-
   const result = await Vue.axios
     .post(
-      `https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic?access_token=${access_token}`,
-      data,
+      `https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic`,
+      Qs.stringify({
+        access_token,
+        image,
+        ...addon,
+      }),
       {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
       }
     )

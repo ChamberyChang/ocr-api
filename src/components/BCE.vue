@@ -96,7 +96,7 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="primary" text large @click="requestToken()">
-                      {{ $t("common.submit") }}
+                      {{ $t("common.get") }} Token
                     </v-btn>
                     <v-btn color="primary" text large @click="dialog = false">
                       {{ $t("common.close") }}
