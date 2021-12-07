@@ -73,19 +73,31 @@
                   <v-card-text>
                     <v-text-field
                       v-model="apikey"
+                      dense
                       label="API Key"
                       filled
                       clearable
                     ></v-text-field>
                     <v-text-field
                       v-model="secretKey"
-                      label="secret Key"
+                      dense
+                      label="Secret Key"
+                      filled
+                      clearable
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="token"
+                      dense
+                      label="Access Token"
                       filled
                       clearable
                     ></v-text-field>
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
+                    <v-btn color="primary" text large @click="requestToken()">
+                      {{ $t("common.submit") }}
+                    </v-btn>
                     <v-btn color="primary" text large @click="dialog = false">
                       {{ $t("common.close") }}
                     </v-btn>
@@ -170,6 +182,7 @@
 import _ from "lodash";
 import ocr from "@/plugins/baidubce";
 import resizeImg from "@/plugins/resizeImage";
+import getAccessToken from "@/plugins/getToken";
 export default {
   name: "BCE",
   data: () => ({
@@ -180,6 +193,7 @@ export default {
     snackbar: false,
     apikey: "",
     secretKey: "",
+    token: "",
     lang: "ja",
     response: [],
     dialog: false,
@@ -243,6 +257,10 @@ export default {
           .map((msg) => (msg.endsWith(".") ? msg : `${msg}.`))
           .join(" ")}`;
       }
+    },
+    async requestToken() {
+      if (!(this.apikey && this.secretKey)) return;
+      else this.token = await getAccessToken(this.apiKey, this.secretKey);
     },
   },
 };

@@ -1,8 +1,6 @@
 import Vue from "vue";
 import _ from "lodash";
-import Qs from "qs";
-
-let token = false;
+//import Qs from "qs";
 
 const languageEnum = {
   zh: "CHN_ENG",
@@ -15,47 +13,29 @@ const languageEnum = {
 };
 
 /**
- * get AccessToken
- *
- * @returns AccessToken
- */
-const getAccessToken = async (apiKey, secretKey) => {
-  if (token) {
-    if (token.date + 2592000000 - 86400000 > new Date().getTime())
-      return token.accessToken;
-  }
-  const accessToken = await Vue.axios
-    .get(
-      `https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=${apiKey}&client_secret=${secretKey}`
-    )
-    .then((r) => r.data.access_token);
-  return accessToken;
-};
-
-/**
  * OCR 识别
  *
  * @param {File} file image
  * @param {string} [lang=null] language
+ * @param {string} access_token token
  * @returns {Promise<string[]>} result
  */
-export default async (file, lang, apiKey, secretKey) => {
-  const addon = {};
-  addon.language_type = languageEnum[lang];
+export default async (file, lang, access_token) => {
+  const language_type = languageEnum[lang];
 
   const image = Buffer.from(file.toString(), "binary").toString("base64");
-  const access_token = await getAccessToken(apiKey, secretKey);
+
+  var data = new FormData();
+  data.append("image", image);
+  data.append("language_type", language_type);
+
   const result = await Vue.axios
     .post(
-      `https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic`,
-      Qs.stringify({
-        access_token,
-        image,
-        ...addon,
-      }),
+      `https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic?access_token=${access_token}`,
+      data,
       {
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "multipart/form-data",
         },
       }
     )
