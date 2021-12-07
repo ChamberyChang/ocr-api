@@ -10,7 +10,7 @@
             </v-btn>
           </template>
           <v-list dense>
-            <v-list-item-group color="primary">
+            <v-list-item-group v-model="lang" color="primary">
               <v-subheader>TRANSLATIONS</v-subheader>
               <v-list-item>
                 <v-list-item-title @click="changeLang('en')"
