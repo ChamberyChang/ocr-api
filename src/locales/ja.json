@@ -1,5 +1,7 @@
 {
   "common": {
+    "home": "ホーム",
+    "about": "アバウト",
     "title": "OCRアプリ",
     "profile": "プロファイル",
     "setting": "設定",

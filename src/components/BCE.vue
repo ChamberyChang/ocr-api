@@ -1,15 +1,17 @@
 <template>
   <v-container>
     <v-row class="text-center">
-      <v-col class="ocr">
+      <v-col class="bce">
         <div id="app">
           <div>
             <v-col class="selector">
               <v-menu transition="fade-transition">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                    v-model="lang"
-                    dark
+                    class="mx-1"
+                    fab
+                    icon
+                    large
                     color="primary"
                     v-bind="attrs"
                     v-on="on"
@@ -53,7 +55,14 @@
               </v-menu>
               <v-dialog v-model="dialog" max-width="290">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="primary" dark v-bind="attrs" v-on="on">
+                  <v-btn
+                    color="primary"
+                    fab
+                    icon
+                    large
+                    v-bind="attrs"
+                    v-on="on"
+                  >
                     <v-icon dark> mdi-format-list-bulleted-square </v-icon>
                   </v-btn>
                 </template>
@@ -68,11 +77,16 @@
                       filled
                       clearable
                     ></v-text-field>
-                    {{ $t("bce.setting") }}
+                    <v-text-field
+                      v-model="secretKey"
+                      label="secret Key"
+                      filled
+                      clearable
+                    ></v-text-field>
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="green darken-1" text @click="dialog = false">
+                    <v-btn color="primary" text large @click="dialog = false">
                       {{ $t("common.close") }}
                     </v-btn>
                   </v-card-actions>
@@ -82,41 +96,64 @@
 
             <v-col class="upload">
               <v-file-input
-                v-model="image"
+                v-model="images"
                 label="Upload"
                 chips
+                multiple
                 color="deep-purple accent-4"
                 accept="image/*"
                 prepend-icon="mdi-camera"
                 filled
+                clearable
                 @change="uploadImg"
               >
               </v-file-input>
-            </v-col>
-
-            <v-btn color="primary" block @click="OCR()">
-              {{ $t("common.submit") }}
-            </v-btn>
-            <v-col>
-              <v-img :src="url"></v-img>
+              <v-btn
+                color="primary"
+                class="ma-2 white--text"
+                large
+                @click="handleOCR()"
+              >
+                {{ $t("common.submit") }}
+                <v-icon right dark> mdi-cloud-upload </v-icon>
+              </v-btn>
             </v-col>
           </div>
-
-          <v-container fluid>
-            <v-textarea
-              v-model="response"
-              clearable
-              counter
-              filled
-              clear-icon="mdi-close-circle"
-              label="Results"
-              auto-grow
-              :value="this.response"
-            ></v-textarea>
-          </v-container>
         </div>
       </v-col>
     </v-row>
+
+    <v-row>
+      <v-col
+        v-for="(url, index) in urls"
+        :key="index"
+        class="d-flex child-flex"
+        cols="4"
+      >
+        <v-img :src="url" aspect-ratio="1" class="grey lighten-2">
+          <template v-slot:placeholder>
+            <v-row class="fill-height ma-0" align="center" justify="center">
+              <v-progress-circular
+                indeterminate
+                color="grey lighten-5"
+              ></v-progress-circular>
+            </v-row>
+          </template>
+        </v-img>
+      </v-col>
+    </v-row>
+    <v-container fluid>
+      <v-textarea
+        v-model="response"
+        clearable
+        counter
+        filled
+        clear-icon="mdi-close-circle"
+        label="Results"
+        auto-grow
+        :value="this.response"
+      ></v-textarea>
+    </v-container>
 
     <v-snackbar v-model="snackbar" :multi-line="multiLine">
       {{ error }}
@@ -136,29 +173,56 @@ import resizeImg from "@/plugins/resizeImage";
 export default {
   name: "BCE",
   data: () => ({
-    url: null,
-    image: null,
+    urls: [],
+    images: [],
     error: null,
     multiLine: true,
     snackbar: false,
-    apikey: "helloworld",
+    apikey: "leGTuuUrodB3KNRirBTjVEOu",
+    secretKey: "eZrI88dlYkB1p9uuv1unUQ2YGLlbGN39",
     lang: "ja",
-    response: null,
+    response: [],
     dialog: false,
   }),
   methods: {
+    // language initialize
     setLang(lang) {
       this.lang = lang;
     },
-    async uploadImg() {
-      this.url = URL.createObjectURL(this.image);
+    // check and display images
+    uploadImg() {
+      this.urls = [];
+      if (!this.images.length) {
+        return;
+      }
+      for (const img of this.images) {
+        if (!img) {
+          this.error = `${this.$t("ocr.uploadError")}${this.$t("ocr.tip")}`;
+          this.snackbar = true;
+          return;
+        }
+        this.urls.push(URL.createObjectURL(img));
+      }
     },
-    /**
+    // pre-loader for OCR images
+    handleOCR() {
+      this.response = [];
+      this.snackbar = false;
+      if (!this.images.length) {
+        this.error = `${this.$t("ocr.uploadError")}${this.$t("ocr.tip")}`;
+        this.snackbar = true;
+        return;
+      }
+      for (const img of this.images) {
+        this.bce(img);
+      }
+    },
+    /** start OCR.space
      * @param {File} file
      */
-    async OCR() {
+    async bce(file) {
       const result = await ocr(
-        await resizeImg(this.image, {
+        await resizeImg(file, {
           quality: 0.9,
           maxWidth: 1920,
           maxHeight: 1080,
@@ -166,7 +230,7 @@ export default {
         this.lang,
         this.apikey
       )
-        .then((response) => (this.response = response.join("\n")))
+        .then((response) => this.response.push(response.join("\n")))
         .catch((e) => ({
           IsErroredOnProcessing: true,
           ErrorMessage: String(e),

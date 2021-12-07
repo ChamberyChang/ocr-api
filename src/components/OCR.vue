@@ -8,8 +8,10 @@
               <v-menu transition="fade-transition">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                    v-model="lang"
-                    dark
+                    class="mx-1"
+                    fab
+                    icon
+                    large
                     color="primary"
                     v-bind="attrs"
                     v-on="on"
@@ -45,6 +47,11 @@
                     >
                   </v-list-item>
                   <v-list-item>
+                    <v-list-item-title @click="setLang('de')"
+                      >Deutsch</v-list-item-title
+                    >
+                  </v-list-item>
+                  <v-list-item>
                     <v-list-item-title @click="setLang('ru')"
                       >русский</v-list-item-title
                     >
@@ -53,7 +60,14 @@
               </v-menu>
               <v-dialog v-model="dialog" max-width="290">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="primary" dark v-bind="attrs" v-on="on">
+                  <v-btn
+                    color="primary"
+                    fab
+                    icon
+                    large
+                    v-bind="attrs"
+                    v-on="on"
+                  >
                     <v-icon dark> mdi-format-list-bulleted-square </v-icon>
                   </v-btn>
                 </template>
@@ -72,7 +86,7 @@
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="green darken-1" text @click="dialog = false">
+                    <v-btn color="primary" text @click="dialog = false">
                       {{ $t("common.close") }}
                     </v-btn>
                   </v-card-actions>
@@ -94,11 +108,16 @@
                 @change="uploadImg"
               >
               </v-file-input>
+              <v-btn
+                color="primary"
+                class="ma-2 white--text"
+                large
+                @click="handleOCR()"
+              >
+                {{ $t("common.submit") }}
+                <v-icon right dark> mdi-cloud-upload </v-icon>
+              </v-btn>
             </v-col>
-
-            <v-btn color="primary" block @click="handleOCR()">
-              {{ $t("common.submit") }}
-            </v-btn>
           </div>
         </div>
       </v-col>

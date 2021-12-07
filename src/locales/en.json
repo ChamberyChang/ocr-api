@@ -1,5 +1,7 @@
 {
   "common": {
+    "home": "Home",
+    "about": "About",
     "title": "OCR App",
     "profile": "Profile",
     "setting": "Setting",

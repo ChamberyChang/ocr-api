@@ -1,5 +1,7 @@
 {
   "common": {
+    "home": "首页",
+    "about": "关于",
     "title": "OCR应用",
     "profile": "信息",
     "setting": "设置",
