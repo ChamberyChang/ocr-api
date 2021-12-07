@@ -59,7 +59,7 @@
                 </template>
                 <v-card>
                   <v-card-title class="text-h5">
-                    OCR {{ $t("common.setting") }}
+                    BCE {{ $t("common.setting") }}
                   </v-card-title>
                   <v-card-text>
                     <v-text-field
@@ -68,7 +68,7 @@
                       filled
                       clearable
                     ></v-text-field>
-                    {{ $t("ocr.setting") }}
+                    {{ $t("bce.setting") }}
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
@@ -82,59 +82,41 @@
 
             <v-col class="upload">
               <v-file-input
-                v-model="images"
+                v-model="image"
                 label="Upload"
                 chips
-                multiple
                 color="deep-purple accent-4"
                 accept="image/*"
                 prepend-icon="mdi-camera"
                 filled
-                clearable
                 @change="uploadImg"
               >
               </v-file-input>
             </v-col>
 
-            <v-btn color="primary" block @click="handleOCR()">
+            <v-btn color="primary" block @click="OCR()">
               {{ $t("common.submit") }}
             </v-btn>
+            <v-col>
+              <v-img :src="url"></v-img>
+            </v-col>
           </div>
+
+          <v-container fluid>
+            <v-textarea
+              v-model="response"
+              clearable
+              counter
+              filled
+              clear-icon="mdi-close-circle"
+              label="Results"
+              auto-grow
+              :value="this.response"
+            ></v-textarea>
+          </v-container>
         </div>
       </v-col>
     </v-row>
-
-    <v-row>
-      <v-col
-        v-for="(url, index) in urls"
-        :key="index"
-        class="d-flex child-flex"
-        cols="4"
-      >
-        <v-img :src="url" aspect-ratio="1" class="grey lighten-2">
-          <template v-slot:placeholder>
-            <v-row class="fill-height ma-0" align="center" justify="center">
-              <v-progress-circular
-                indeterminate
-                color="grey lighten-5"
-              ></v-progress-circular>
-            </v-row>
-          </template>
-        </v-img>
-      </v-col>
-    </v-row>
-    <v-container fluid>
-      <v-textarea
-        v-model="response"
-        clearable
-        counter
-        filled
-        clear-icon="mdi-close-circle"
-        label="Results"
-        auto-grow
-        :value="this.response"
-      ></v-textarea>
-    </v-container>
 
     <v-snackbar v-model="snackbar" :multi-line="multiLine">
       {{ error }}
@@ -152,57 +134,31 @@ import _ from "lodash";
 import ocr from "@/plugins/ocr.space";
 import resizeImg from "@/plugins/resizeImage";
 export default {
-  name: "OCR",
+  name: "BCE",
   data: () => ({
-    urls: [],
-    images: [],
+    url: null,
+    image: null,
     error: null,
     multiLine: true,
     snackbar: false,
     apikey: "helloworld",
     lang: "ja",
-    response: [],
+    response: null,
     dialog: false,
   }),
   methods: {
-    // language initialize
     setLang(lang) {
       this.lang = lang;
     },
-    // check and display images
-    uploadImg() {
-      this.urls = [];
-      if (!this.images.length) {
-        return;
-      }
-      for (const img of this.images) {
-        if (!img) {
-          this.error = `${this.$t("ocr.uploadError")}${this.$t("ocr.tip")}`;
-          this.snackbar = true;
-          return;
-        }
-        this.urls.push(URL.createObjectURL(img));
-      }
+    async uploadImg() {
+      this.url = URL.createObjectURL(this.image);
     },
-    // pre-loader for OCR images
-    handleOCR() {
-      this.response = [];
-      this.snackbar = false;
-      if (!this.images.length) {
-        this.error = `${this.$t("ocr.uploadError")}${this.$t("ocr.tip")}`;
-        this.snackbar = true;
-        return;
-      }
-      for (const img of this.images) {
-        this.ocr_space(img);
-      }
-    },
-    /** start OCR.space
+    /**
      * @param {File} file
      */
-    async ocr_space(file) {
+    async OCR() {
       const result = await ocr(
-        await resizeImg(file, {
+        await resizeImg(this.image, {
           quality: 0.9,
           maxWidth: 1920,
           maxHeight: 1080,
@@ -210,7 +166,7 @@ export default {
         this.lang,
         this.apikey
       )
-        .then((response) => this.response.push(response.join("\n")))
+        .then((response) => (this.response = response.join("\n")))
         .catch((e) => ({
           IsErroredOnProcessing: true,
           ErrorMessage: String(e),
