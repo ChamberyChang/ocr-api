@@ -1,4 +1,9 @@
 module.exports = {
+  publicPath: "",
+  outputDir: "dist",
+  assetsDir: "",
+  indexPath: "index.html",
+  runtimeCompiler: true,
   pluginOptions: {
     i18n: {
       locale: "ja",

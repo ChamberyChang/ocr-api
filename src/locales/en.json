@@ -1,11 +1,12 @@
 {
   "common": {
     "title": "OCR App",
-    "message": "hello i18n !!",
-    "setting": "setting",
+    "profile": "Profile",
+    "setting": "Setting",
     "author": "Author:",
     "abstract": "An OCR web application.",
-    "usingAPI": "Using OCR API",
+    "usingAPI": "Using API",
+    "links": "Links",
     "close": "Close",
     "submit": "Submit"
   },

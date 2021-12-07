@@ -1,11 +1,12 @@
 {
   "common": {
     "title": "OCRアプリ",
-    "message": "ハロー i18n !!",
+    "profile": "プロファイル",
     "setting": "設定",
     "author": "作成：",
     "abstract": "OCRウェブアプリです.",
-    "usingAPI": "採用したOCR API",
+    "usingAPI": "採用したAPI",
+    "links": "外部リンク",
     "close": "閉じる",
     "submit": "送信"
   },

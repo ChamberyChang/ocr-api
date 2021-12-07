@@ -6,12 +6,12 @@
           :src="require('../assets/logo.svg')"
           class="my-3"
           contain
-          height="200"
+          height="100"
         />
       </v-col>
 
       <v-col class="home">
-        <h1 class="display-2 font-weight-bold mb-3">
+        <h1 class="display-1 font-weight-bold mb-3">
           {{ $t("common.title") }}
         </h1>
       </v-col>

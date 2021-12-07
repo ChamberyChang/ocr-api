@@ -1,11 +1,12 @@
 {
   "common": {
     "title": "OCR应用",
-    "message": "哈喽 i18n !!",
+    "profile": "信息",
     "setting": "设置",
     "author": "作者：",
     "abstract": "一个OCR网页应用",
-    "usingAPI": "使用的OCR API",
+    "usingAPI": "使用的API",
+    "links": "相关链接",
     "close": "关闭",
     "submit": "提交"
   },
