@@ -1,13 +1,10 @@
-import Axios from "axios";
-import Path from "path";
-import Fse from "fs-extra";
+import Vue from "vue";
 import _ from "lodash";
-
-const TOKEN_PATH = Path.resolve(__dirname, "../../../data/baidubce.json");
+import Qs from "qs";
 
 let token = false;
 
-const LANGAlias = {
+const languageEnum = {
   zh: "CHN_ENG",
   en: "ENG",
   ja: "JAP",
@@ -18,59 +15,50 @@ const LANGAlias = {
 };
 
 /**
- * 获取 AccessToken
+ * get AccessToken
  *
  * @returns AccessToken
  */
-const getAccessToken = async () => {
+const getAccessToken = async (apiKey, secretKey) => {
   if (token) {
     if (token.date + 2592000000 - 86400000 > new Date().getTime())
       return token.accessToken;
-  } else if (Fse.existsSync(TOKEN_PATH)) {
-    token = Fse.readJsonSync(TOKEN_PATH);
-    return getAccessToken();
   }
-  const { apiKey, secretKey } = global.config.bot.ocr.baidubce;
-  const accessToken = await Axios.get(
-    `https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=${apiKey}&client_secret=${secretKey}`
-  ).then((r) => r.data.access_token);
-  token = {
-    accessToken,
-    date: new Date().getTime(),
-  };
-  Fse.writeJsonSync(TOKEN_PATH, token);
+  const accessToken = await Vue.axios
+    .get(
+      `https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=${apiKey}&client_secret=${secretKey}`
+    )
+    .then((r) => r.data.access_token);
   return accessToken;
 };
 
 /**
  * OCR 识别
  *
- * @param {{ url: string }} url 图片地址
- * @param {string} [lang=null] 语言
- * @returns {Promise<string[]>} 识别结果
+ * @param {File} file image
+ * @param {string} [lang=null] language
+ * @returns {Promise<string[]>} result
  */
-export default async ({ url }, lang = null) => {
+export default async (file, lang, apiKey, secretKey) => {
   const addon = {};
-  if (lang) {
-    if (LANGAlias[lang]) addon.language_type = LANGAlias[lang];
-    else addon.language_type = lang.toUpperCase();
-  }
-  const image = await Axios.get(url, { responseType: "arraybuffer" }).then(
-    (r) => Buffer.from(r.data, "binary").toString("base64")
-  );
-  const access_token = await getAccessToken();
-  const result = await Axios.post(
-    `https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic`,
-    Qs.stringify({
-      access_token,
-      image,
-      ...addon,
-    }),
-    {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    }
-  ).then((r) => r.data.words_result);
+  addon.language_type = languageEnum[lang];
+
+  const image = Buffer.from(file.toString(), "binary").toString("base64");
+  const access_token = await getAccessToken(apiKey, secretKey);
+  const result = await Vue.axios
+    .post(
+      `https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic`,
+      Qs.stringify({
+        access_token,
+        image,
+        ...addon,
+      }),
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    )
+    .then((r) => r.data.words_result);
   return _.map(result, "words");
 };

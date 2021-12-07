@@ -168,7 +168,7 @@
 
 <script>
 import _ from "lodash";
-import ocr from "@/plugins/ocr.space";
+import ocr from "@/plugins/baidubce";
 import resizeImg from "@/plugins/resizeImage";
 export default {
   name: "BCE",
@@ -178,8 +178,8 @@ export default {
     error: null,
     multiLine: true,
     snackbar: false,
-    apikey: "leGTuuUrodB3KNRirBTjVEOu",
-    secretKey: "eZrI88dlYkB1p9uuv1unUQ2YGLlbGN39",
+    apikey: "",
+    secretKey: "",
     lang: "ja",
     response: [],
     dialog: false,
@@ -228,7 +228,8 @@ export default {
           maxHeight: 1080,
         }),
         this.lang,
-        this.apikey
+        this.apikey,
+        this.secretKey
       )
         .then((response) => this.response.push(response.join("\n")))
         .catch((e) => ({

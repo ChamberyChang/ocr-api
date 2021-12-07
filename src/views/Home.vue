@@ -16,14 +16,14 @@
         </h1>
 
         <v-card flat>
-          <v-tabs v-model="model" slider-color="primary" centered>
+          <v-tabs v-model="model" slider-color="primary" fixed-tabs>
             <v-tab>
               <v-img
                 :src="require('../assets/ocrspace.png')"
                 class="my-3"
                 contain
                 height="80"
-                width="150"
+                width="100"
               />
             </v-tab>
             <v-tab>
@@ -32,7 +32,7 @@
                 class="my-3"
                 contain
                 height="80"
-                width="150"
+                width="100"
               />
             </v-tab>
           </v-tabs>
