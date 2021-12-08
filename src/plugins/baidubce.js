@@ -13,17 +13,32 @@ const languageEnum = {
 };
 
 /**
+ * blob to base64
+ * @param {Blob} blob
+ * @returns {Promise<string[]>} base64
+ */
+const blobToBase64 = async (blob) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(blob);
+  return new Promise((resolve) => {
+    reader.onloadend = () => {
+      resolve(reader.result);
+    };
+  });
+};
+
+/**
  * OCR 识别
  *
- * @param {File} file image
- * @param {string} [lang=null] language
- * @param {string} access_token token
+ * @param {Blob} file image
+ * @param {String} [lang=null] language
+ * @param {String} access_token token
  * @returns {Promise<string[]>} result
  */
 export default async (file, lang, access_token) => {
   const addon = {};
   addon.language_type = languageEnum[lang];
-  const image = Buffer.from(file.toString(), "binary").toString("base64");
+  const image = await blobToBase64(file);
 
   const result = await Vue.axios
     .post(

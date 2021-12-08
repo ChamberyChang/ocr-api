@@ -72,7 +72,7 @@
                   </v-card-title>
                   <v-card-text>
                     <v-text-field
-                      v-model="apikey"
+                      v-model="apiKey"
                       dense
                       label="API Key"
                       filled
@@ -191,9 +191,9 @@ export default {
     error: null,
     multiLine: true,
     snackbar: false,
-    apikey: "",
+    apiKey: "",
     secretKey: "",
-    token: "",
+    token: [],
     lang: "ja",
     response: [],
     dialog: false,
@@ -242,10 +242,9 @@ export default {
           maxHeight: 1080,
         }),
         this.lang,
-        this.apikey,
-        this.secretKey
+        this.token
       )
-        .then((response) => this.response.push(response.join("\n")))
+        .then((r) => this.response.push(r.join("\n")))
         .catch((e) => ({
           IsErroredOnProcessing: true,
           ErrorMessage: String(e),
@@ -259,8 +258,25 @@ export default {
       }
     },
     async requestToken() {
-      if (!(this.apikey && this.secretKey)) return;
-      else this.token = await getAccessToken(this.apiKey, this.secretKey);
+      this.token = [];
+      if (!(this.apiKey && this.secretKey)) return;
+      else {
+        const request = await getAccessToken(this.apiKey, this.secretKey)
+          .then((r) => this.token.push(r))
+          .catch((e) => ({
+            IsErroredOnProcessing: true,
+            ErrorMessage: String(e),
+          }));
+        this.snackbar = false;
+        if (request.IsErroredOnProcessing) {
+          this.snackbar = true;
+          this.error = `${this.$t("ocr.error")}${_.castArray(
+            request.ErrorMessage
+          )
+            .map((msg) => (msg.endsWith(".") ? msg : `${msg}.`))
+            .join(" ")}`;
+        }
+      }
     },
   },
 };

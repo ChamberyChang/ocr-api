@@ -14,9 +14,9 @@ const languageEnum = {
 /**
  * OCR 识别
  *
- * @param {File} image image file
- * @param {string} [lang] language
- * @param {string} [apikey] API key
+ * @param {Blob} image image file
+ * @param {String} [lang] language
+ * @param {String} [apikey] API key
  * @returns {Promise<string[]>} results
  */
 export default async (image, lang, apikey) => {

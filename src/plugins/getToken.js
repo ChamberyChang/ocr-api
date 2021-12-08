@@ -2,9 +2,9 @@ import Vue from "vue";
 
 /**
  * get AccessToken
- * @param {string} apiKey
- * @param {string} secretKey
- * @returns AccessToken
+ * @param {String} apiKey
+ * @param {String} secretKey
+ * @returns {Promise<string[]>} AccessToken
  */
 export default async (apiKey, secretKey) => {
   const accessToken = await Vue.axios
