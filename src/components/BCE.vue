@@ -163,10 +163,9 @@
     </v-row>
     <v-row
       v-model="responses"
-      v-for="(response, i) in responses"
+      v-for="(res, i) in responses"
       :key="i"
       class="d-flex child-flex"
-      cols="4"
     >
       <v-col cols="12" md="8">
         <v-textarea
@@ -176,7 +175,7 @@
           clear-icon="mdi-close-circle"
           label="Results"
           auto-grow
-          :value="response"
+          :value="res"
         ></v-textarea>
       </v-col>
     </v-row>
