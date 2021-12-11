@@ -123,37 +123,46 @@
       </v-col>
     </v-row>
 
-    <v-row>
+    <v-row no-gutters>
       <v-col
         v-for="(url, index) in urls"
         :key="index"
         class="d-flex child-flex"
         cols="4"
       >
-        <v-img :src="url" aspect-ratio="1" class="grey lighten-2">
-          <template v-slot:placeholder>
-            <v-row class="fill-height ma-0" align="center" justify="center">
-              <v-progress-circular
-                indeterminate
-                color="grey lighten-5"
-              ></v-progress-circular>
-            </v-row>
-          </template>
-        </v-img>
+        <v-card class="pa-2" outlined tile>
+          <v-img :src="url" aspect-ratio="1" class="grey lighten-2">
+            <template v-slot:placeholder>
+              <v-row class="fill-height ma-0" align="center" justify="center">
+                <v-progress-circular
+                  indeterminate
+                  color="grey lighten-5"
+                ></v-progress-circular>
+              </v-row>
+            </template>
+          </v-img>
+        </v-card>
       </v-col>
     </v-row>
-    <v-container fluid>
-      <v-textarea
-        v-model="response"
-        clearable
-        counter
-        filled
-        clear-icon="mdi-close-circle"
-        label="Results"
-        auto-grow
-        :value="this.response"
-      ></v-textarea>
-    </v-container>
+    <v-row
+      v-model="responses"
+      v-for="(response, i) in responses"
+      :key="i"
+      class="d-flex child-flex"
+      cols="4"
+    >
+      <v-col cols="12" md="8">
+        <v-textarea
+          clearable
+          counter
+          filled
+          clear-icon="mdi-close-circle"
+          label="Results"
+          auto-grow
+          :value="response"
+        ></v-textarea>
+      </v-col>
+    </v-row>
 
     <v-snackbar v-model="snackbar" :multi-line="multiLine">
       {{ error }}
@@ -180,7 +189,7 @@ export default {
     snackbar: false,
     apikey: "helloworld",
     lang: "ja",
-    response: [],
+    responses: [],
     dialog: false,
   }),
   methods: {
@@ -205,7 +214,7 @@ export default {
     },
     // pre-loader for OCR images
     handleOCR() {
-      this.response = [];
+      this.responses = [];
       this.snackbar = false;
       if (!this.images.length) {
         this.error = `${this.$t("ocr.uploadError")}${this.$t("ocr.tip")}`;
@@ -229,7 +238,7 @@ export default {
         this.lang,
         this.apikey
       )
-        .then((response) => this.response.push(response.join("\n")))
+        .then((r) => this.responses.push(r.join("\n")))
         .catch((e) => ({
           IsErroredOnProcessing: true,
           ErrorMessage: String(e),
