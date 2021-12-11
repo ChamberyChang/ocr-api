@@ -212,7 +212,7 @@ export default {
       }
     },
     // pre-loader for OCR images
-    handleOCR() {
+    async handleOCR() {
       this.responses = [];
       this.snackbar = false;
       if (!this.images.length) {
@@ -221,7 +221,7 @@ export default {
         return;
       }
       for (const img of this.images) {
-        this.ocr_space(img);
+        await this.ocr_space(img);
       }
     },
     /** start OCR.space
@@ -248,6 +248,7 @@ export default {
         this.error = `${this.$t("ocr.error")}${_.castArray(result.ErrorMessage)
           .map((msg) => (msg.endsWith(".") ? msg : `${msg}.`))
           .join(" ")}`;
+        return;
       }
     },
   },

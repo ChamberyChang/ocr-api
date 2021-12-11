@@ -232,7 +232,7 @@ export default {
       }
     },
     // pre-loader for OCR images
-    handleOCR() {
+    async handleOCR() {
       this.responses = [];
       this.snackbar = false;
       if (!this.images.length) {
@@ -241,7 +241,7 @@ export default {
         return;
       }
       for (const img of this.images) {
-        this.bce(img);
+        await this.bce(img);
       }
     },
     /** start OCR.space
@@ -268,6 +268,7 @@ export default {
         this.error = `${this.$t("ocr.error")}${_.castArray(result.ErrorMessage)
           .map((msg) => (msg.endsWith(".") ? msg : `${msg}.`))
           .join(" ")}`;
+        return;
       }
     },
     async requestToken() {
@@ -275,7 +276,7 @@ export default {
       if (!(this.apiKey && this.secretKey)) return;
       else {
         const request = await getAccessToken(this.apiKey, this.secretKey)
-          .then((r) => this.token.push(r))
+          .then((rq) => this.token.push(rq))
           .catch((e) => ({
             IsErroredOnProcessing: true,
             ErrorMessage: String(e),
@@ -288,6 +289,7 @@ export default {
           )
             .map((msg) => (msg.endsWith(".") ? msg : `${msg}.`))
             .join(" ")}`;
+          return;
         }
       }
     },
