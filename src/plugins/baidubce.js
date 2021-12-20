@@ -31,7 +31,7 @@ const blobToBase64 = async (blob) => {
  * OCR 识别
  *
  * @param {Blob} file image
- * @param {String} [lang=null] language
+ * @param {String} [lang] language
  * @param {String} access_token token
  * @returns {Promise<string[]>} result
  */
