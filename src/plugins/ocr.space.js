@@ -16,7 +16,7 @@ const languageEnum = {
  *
  * @param {Blob} image image file
  * @param {String} [lang] language
- * @param {String} [apikey] API key
+ * @param {String} apikey API key
  * @returns {Promise<string[]>} results
  */
 export default async (image, lang, apikey) => {
